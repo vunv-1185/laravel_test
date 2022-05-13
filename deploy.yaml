@@ -16,15 +16,19 @@ tasks:
   deploy:
     - deploy:prepare
     - deploy:vendors
-    - artisan:storage:link
-    - migrate-database
-    - build-assets
     - clear-config
+    - artisan:storage:link
+    - artisan:jetstream:install
+    - build-assets
     - cache-config
+    - migrate-database
     - deploy:publish
   build-assets:
     - cd: '{{release_path}}'
     - run: 'npm i && npm run prod'
+  artisan:jetstream:install:
+    - cd: '{{release_path}}'
+    - run: 'php artisan jetstream:install inertia'
   clear-config:
     - artisan:config:clear
     - artisan:event:clear
