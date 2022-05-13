@@ -1,0 +1,47 @@
+import:
+  - recipe/laravel.php
+
+config:
+  repository: 'git@github.com:vunv-1185/laravel_test.git'
+  application: 'laravel_test'
+
+hosts:
+  prod:
+    remote_user: 'ubuntu'
+    hostname: 'ec2-34-217-136-143.us-west-2.compute.amazonaws.com'
+    deploy_path: '~/{{application}}'
+    branch: 'main'
+
+tasks:
+  deploy:
+    - deploy:prepare
+    - deploy:vendors
+    - artisan:storage:link
+    - migrate-database
+    - build-assets
+    - clear-config
+    - cache-config
+    - deploy:publish
+  build-assets:
+    - cd: '{{release_path}}'
+    - run: 'npm i && npm run prod'
+  clear-config:
+    - artisan:config:clear
+    - artisan:event:clear
+    - artisan:optimize:clear
+    - artisan:route:clear
+    - artisan:view:clear
+  cache-config:
+    - artisan:config:cache
+    - artisan:event:cache
+    - artisan:optimize
+    - artisan:route:cache
+    - artisan:view:cache
+  migrate-database:
+    - artisan:down
+    - artisan:migrate
+    - artisan:up
+    - artisan:db:seed
+
+after:
+  deploy:failed: deploy:unlock
