@@ -8,7 +8,7 @@ config:
 hosts:
   prod:
     remote_user: 'ubuntu'
-    hostname: 'ec2-34-217-136-143.us-west-2.compute.amazonaws.com'
+    hostname: 'ec2-52-27-237-153.us-west-2.compute.amazonaws.com'
     deploy_path: '~/{{application}}'
     branch: 'main'
 
