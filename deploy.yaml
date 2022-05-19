@@ -2,7 +2,7 @@ import:
   - recipe/laravel.php
 
 config:
-  repository: 'git@github.com:vunv-1185/laravel_test.git'
+  repository: 'https://github.com/vunv-1185/laravel_test.git'
   application: 'laravel_test'
 
 hosts:
