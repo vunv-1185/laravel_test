@@ -11,7 +11,7 @@ on:
 jobs:
   deploy:
     name: Deployment
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
@@ -21,12 +21,10 @@ jobs:
         with:
           php-version: 7.4
 
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
       - name: Deploy
         uses: deployphp/action@master
         with:
           private-key: ${{ secrets.PRIVATE_KEY }}
           known-hosts: ${{ secrets.KNOWN_HOSTS }}
+          deployer-version: 7.0.0-rc.8
           dep: deploy ${{ github.event.inputs.deploy_env }} -v
