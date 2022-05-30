@@ -1,0 +1,27 @@
+name: Deploy (Released)
+
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  deploy:
+    name: Deployment
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+
+      - name: Deploy
+        uses: deployphp/action@master
+        with:
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          known-hosts: ${{ secrets.KNOWN_HOSTS }}
+          deployer-version: 7.0.0-rc.8
+          dep: deploy prod -v
