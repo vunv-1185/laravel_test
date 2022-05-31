@@ -17,8 +17,22 @@ jobs:
         with:
           php-version: 7.4
 
+      - name: Setup MariaDB
+        uses: getong/mariadb-action@v1.1
+        with:
+          mariadb version: 10.4.10
+          mysql database: test
+          mysql user: test
+          mysql password: Aa@123456
+
       - name: Install dependencies
         run: composer install --no-progress --no-interaction
+
+      - name: Setup environment for Laravel app
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit
