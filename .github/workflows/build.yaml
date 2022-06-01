@@ -26,11 +26,12 @@ jobs:
           mysql password: Aa@123456
 
       - name: Install dependencies
-        run: composer install --no-progress --no-interaction
+        run: composer install --no-progress --no-interaction -q
 
       - name: Setup environment for Laravel app
         run: |
-          cp .env.example .env
+          if test ! -f .env; then cp .env.example .env; fi
+          chmod -R 777 storage bootstrap/cache
           php artisan key:generate
           php artisan migrate
 
