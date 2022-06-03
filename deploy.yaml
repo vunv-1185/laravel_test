@@ -19,6 +19,7 @@ tasks:
     - clear-config
     - artisan:storage:link
     - artisan:jetstream:install
+    - artisan:jwt
     - build-assets
     - cache-config
     - migrate-database
@@ -29,6 +30,9 @@ tasks:
   artisan:jetstream:install:
     - cd: '{{release_path}}'
     - run: 'php artisan jetstream:install inertia'
+  artisan:jwt:
+    - cd: '{{release_path}}'
+    - run: 'php artisan jwt:secret'
   clear-config:
     - artisan:config:clear
     - artisan:event:clear
